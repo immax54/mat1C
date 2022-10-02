@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Text;
 
 
@@ -106,6 +106,13 @@ void Integral()
         return 2*x+Math.Log10(x)+0.5;
     }
 
+
+    double ddf(double x)
+    {
+        return -(1/(x*x));
+    }
+
+
     double sdf(double x)
     {
         return 2+(1/x);
@@ -153,20 +160,31 @@ void Integral()
     double[] dxn;
     double e;
 
+    double df(double x)
+    {
+        return 1+(k*(-(1/(x*x))));
+    }
+
+    double sf(double x)
+    {
+        return x+(k*(2*x+Math.Log10(x)+0.5));
+    }
+
+
     Console.WriteLine("Корень ровнения 2*x+Log10(x)+0.5=0 , при диапозоне [0;0,9]");
     Console.WriteLine("Ф(x)=x-(x+Log10(x)+0.5) ");
-    Console.WriteLine("Ф*(a)= "+sdf(a)+" Ф*(b)= "+sdf(b));
+    Console.WriteLine("Ф*(a)= "+df(a)+" Ф*(b)= "+df(b));
     e=ce;
-    if((sdf(a)<0) &(sdf(b)<0))
+    if((df(a)<0) &(df(b)<0))
     {
         Console.WriteLine("Двусторонняя, критерии останова "+Math.Abs(ce));
     }
     else
     {
-        e=(1-Math.Max(Math.Abs(sdf(a)), Math.Abs(sdf(b))))*ce;
+        e=(1-Math.Max(Math.Abs(df(a)), Math.Abs(df(b))))*ce;
         Console.WriteLine("Монотонная, критерии останова "+Math.Abs(e));
     }
-    y=0;
+    y=a;
     y1=b;
     n=0;
     while (Math.Abs(y1-y)>Math.Abs(e))
@@ -179,7 +197,7 @@ void Integral()
         else
         {
             y=y1;
-            y1=sdf(y);
+            y1=sf(y);
         }
         Console.WriteLine("n "+n);
         Console.WriteLine("Xn "+y1);
@@ -198,4 +216,4 @@ void Integral()
     Console.WriteLine("Ответ: "+y1);
 }
 
-Integral();
+Combo();
