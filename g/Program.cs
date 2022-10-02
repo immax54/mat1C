@@ -19,7 +19,7 @@ void Combo()
         return -(1/(x*x));
     }
 
-    double startinterval(double x, double e)
+    double IntervalNach(double x, double e)
     {
         while (f(x)*f(x+e)>0)
         {
@@ -28,60 +28,56 @@ void Combo()
         return x;
     }
 
-    double horda(double xn, double xi)
+    double hord(double xn, double xi)
     {
         return xi-f(xi)*(xi-xn)/(f(xi)-f(xn));
     }
 
-    double kasat(double x)
+    double Kasateln(double x)
     {
         return x-(f(x)/df(x));
     }
 
 
 
-    const double pa = 0;
-    const double pb = 0.9;
-    const double ce = 0.00001;
-    const double cel = ce*10000;
+    const double NachOtresk = 0;
+    const double epsilon = 0.00001;
+    const double konc = epsilon*10000;
 
     double y, y1, y2, y3;
     int n;
-    double[] xn;
-    double[] dxn;
-    double e;
-    double int1, int2;
+    
 
     Console.WriteLine("Корень ровнения 2*x+Log10(x)+0.5=0 , при диапозоне [0;0,9]");
-    int1=startinterval(pa, cel);
-    int2=int1+cel;
-    Console.WriteLine("Уточненный интервал ["+int1+","+int2+"]");
-    Console.WriteLine("f(a)="+f(int1)+" f*(a)="+df(int1));
-    Console.WriteLine("f**(a)="+ddf(int1));
-    Console.WriteLine("f(b)="+f(int2));
-    Console.WriteLine("f*(b)="+df(int2)+" f**(b)="+ddf(int2));
+    double IntervBeg= IntervalNach(NachOtresk, konc);
+    double IntervEnd= IntervBeg+konc;
+    Console.WriteLine("Уточненный интервал ["+IntervBeg+","+IntervEnd+"]");
+    Console.WriteLine("f(a)="+f(IntervBeg)+" f*(a)="+df(IntervBeg));
+    Console.WriteLine("f**(a)="+ddf(IntervBeg));
+    Console.WriteLine("f(b)="+f(IntervEnd));
+    Console.WriteLine("f*(b)="+df(IntervEnd)+" f**(b)="+ddf(IntervEnd));
 
-    if ((f(int1)<0 & (ddf(int1)<0)) | ((f(int1)>=0)&(ddf(int1)>=0)))
+    if ((f(IntervBeg)<0 & (ddf(IntervBeg)<0)) | ((f(IntervBeg)>=0)&(ddf(IntervBeg)>=0)))
     {
-        y1=int1;
-        y=int2;
+        y1=IntervBeg;
+        y=IntervEnd;
         Console.WriteLine("Знаки совпадают у границы [a.a] - точка неподвижна");
     }
     else
     {
-        y1=int2;
-        y=int1;
+        y1=IntervEnd;
+        y=IntervBeg;
         Console.WriteLine("Знаки совпадают у границы [b.b] - точка неподвижна");
     }
     n=0;
-    while (Math.Abs(y1-y)>=ce)
+    while (Math.Abs(y1-y)>=epsilon)
     {
         n++;
         Console.WriteLine("n "+n);
         y2=y;
         y3=y1;
-        y1=kasat(y3);
-        y=horda(y3, y2);
+        y1=Kasateln(y3);
+        y=hord(y3, y2);
         Console.WriteLine("Xan "+y1);
         Console.WriteLine("F(Xan) "+f(y1));
         Console.WriteLine("Xbn "+y);
@@ -99,95 +95,45 @@ void Combo()
 
 }
 
-void Integral()
-{
-    double f(double x)
-    {
-        return 2*x+Math.Log10(x)+0.5;
-    }
+void Interracii()
+{   
 
-
-    double ddf(double x)
-    {
-        return -(1/(x*x));
-    }
-
-
-    double sdf(double x)
-    {
-        return 2+(1/x);
-    }
-
-    double sddf(double x)
-    {
-        return -(1/(x*x));
-    }
-
-    double startinterval(double x, double e)
-    {
-        while (f(x)*f(x+e)>0)
-        {
-            x=x+e;
-        }
-        return x;
-    }
-
-    double phi(double x)
-    {
-        return x-(x+Math.Log10(x)+0.5);
-    }
-
-
-    double startintervals(double x, double e)
-    {
-        while (f(x)*f(x+e)>0)
-        {
-            x=x+e;
-        }
-        return x;
-    }
-
-   
-
-    const double a = 0.1;
-    const double b = 0.9;
-    const double ce = 0.00001;
-    const double k = -0.3;
+    const double NachOtresk = 0.1;
+    const double KonecOtresk = 0.9;
+    const double epsilon= 0.00001;
+    const double phi = -0.20599;
 
     double y, y1, y2;
     int n;
-    double[] xn;
-    double[] dxn;
-    double e;
 
-    double df(double x)
+    double dfotphi(double x)
     {
-        return 1+(k*(-(1/(x*x))));
+        return 1+(phi*(-(1/(x*x))));
     }
 
-    double sf(double x)
+    double ddfotphi(double x)
     {
-        return x+(k*(2*x+Math.Log10(x)+0.5));
+        return x+(phi*(2*x+Math.Log10(x)+0.5));
     }
 
 
     Console.WriteLine("Корень ровнения 2*x+Log10(x)+0.5=0 , при диапозоне [0;0,9]");
     Console.WriteLine("Ф(x)=x-(x+Log10(x)+0.5) ");
-    Console.WriteLine("Ф*(a)= "+df(a)+" Ф*(b)= "+df(b));
-    e=ce;
-    if((df(a)<0) &(df(b)<0))
+    Console.WriteLine("Ф*(a)= "+dfotphi(NachOtresk)+" Ф*(b)= "+dfotphi(KonecOtresk));
+    double EndOstanova= epsilon;
+    if((dfotphi(NachOtresk)<0) &(dfotphi(KonecOtresk)<0))
     {
-        Console.WriteLine("Двусторонняя, критерии останова "+Math.Abs(ce));
+        Console.WriteLine("Двусторонняя, критерии останова "+Math.Abs(epsilon));
     }
     else
     {
-        e=(1-Math.Max(Math.Abs(df(a)), Math.Abs(df(b))))*ce;
-        Console.WriteLine("Монотонная, критерии останова "+Math.Abs(e));
+        EndOstanova=(1-Math.Max(Math.Abs(dfotphi(NachOtresk)), Math.Abs(dfotphi(KonecOtresk))))*epsilon;
+        Console.WriteLine("Монотонная, критерии останова "+Math.Abs(EndOstanova));
     }
-    y=a;
-    y1=b;
+    y=NachOtresk;
+    y1=KonecOtresk;
     n=0;
-    while (Math.Abs(y1-y)>Math.Abs(e))
+    while (Math.Abs(y1-y)>Math.Abs(EndOstanova))
     {
         n++;
         if (n==1)
@@ -197,11 +143,11 @@ void Integral()
         else
         {
             y=y1;
-            y1=sf(y);
+            y1=ddfotphi(y);
         }
         Console.WriteLine("n "+n);
         Console.WriteLine("Xn "+y1);
-        if (Math.Abs(y1-y)<=(e))
+        if (Math.Abs(y1-y)<=(EndOstanova))
         {
             Console.WriteLine("|Xn-Xn+1|<=e - Да");
         }
